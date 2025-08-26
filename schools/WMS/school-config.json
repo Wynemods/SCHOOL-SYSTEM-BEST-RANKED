@@ -1,0 +1,8 @@
+{
+  "schoolName": "Washington Middle School",
+  "schoolCode": "WMS",
+  "databasePath": "./WMS-library.db",
+  "port": 3003,
+  "adminEmail": "admin@wms.edu",
+  "contactPhone": "555-0000"
+}

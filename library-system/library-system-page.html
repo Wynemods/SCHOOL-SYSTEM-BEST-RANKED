@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library System - Book Management</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .category-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+        }
+        
+        .bulk-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .copies-input {
+            width: 100px !important;
+        }
+        
+        .add-bulk-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .add-bulk-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .book-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .book-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .book-number {
+            color: #2196F3;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .book-subject {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .status-borrowed {
+            color: #f44336;
+            font-weight: bold;
+        }
+        
+        .status-available {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .navigation {
+            margin-bottom: 20px;
+        }
+        
+        .nav-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .nav-btn:hover {
+            background-color: #1976D2;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Library System - Book Management</h1>
+        
+        <div class="navigation">
+            <a href="index.html" class="nav-btn">📖 Library Page</a>
+            <a href="staff.html" class="nav-btn">👥 Staff Page</a>
+            <a href="book-history.html" class="nav-btn">📋 Book History</a>
+        </div>
+        
+        <div class="bulk-form">
+            <h2>📦 Bulk Book Addition</h2>
+            <p>Add multiple copies of the same book efficiently</p>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="book-title">Book Title:</label>
+                    <input type="text" id="book-title" placeholder="e.g., Form 3 Physics" required>
+                </div>
+                <div class="form-group">
+                    <label for="book-author">Author/Publisher:</label>
+                    <input type="text" id="book-author" placeholder="e.g., Oxford University Press" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="book-subject">Subject/Category:</label>
+                    <select id="book-subject" required>
+                        <option value="">Select Subject</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="English">English</option>
+                        <option value="Kiswahili">Kiswahili</option>
+                        <option value="History">History</option>
+                        <option value="Geography">Geography</option>
+                        <option value="Religious Studies">Religious Studies</option>
+                        <option value="Business Studies">Business Studies</option>
+                        <option value="Computer Studies">Computer Studies</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Home Science">Home Science</option>
+                        <option value="Art & Design">Art & Design</option>
+                        <option value="Music">Music</option>
+                        <option value="Physical Education">Physical Education</option>
+                        <option value="Literature">Literature</option>
+                        <option value="French">French</option>
+                        <option value="German">German</option>
+                        <option value="Arabic">Arabic</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="book-copies">Number of Copies:</label>
+                    <input type="number" id="book-copies" min="1" max="1000" value="1" class="copies-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="book-prefix">Book Number Prefix:</label>
+                    <input type="text" id="book-prefix" placeholder="e.g., PHY3" required>
+                </div>
+            </div>
+            
+            <button class="add-bulk-btn" onclick="addBulkBooks()">📦 Add Books</button>
+            
+            <div id="progress-container" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Adding books...</div>
+            </div>
+        </div>
+        
+        <div id="books-container">
+            <!-- Books will be loaded here by subject -->
+        </div>
+    </div>
+    
+    <script src="library-system-page.js"></script>
+</body>
+</html> 

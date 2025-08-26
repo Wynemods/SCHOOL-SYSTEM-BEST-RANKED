@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book History</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 100%);
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+        
+        .history-container {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 0 0.5rem;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .search-input {
+            padding: 0.5rem 0.75rem;
+            border: 2px solid #10b981;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            width: 250px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #059669;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        .history-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 1200px) {
+            .history-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .history-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+            overflow: hidden;
+            border: 1px solid #e5f3ef;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .compact-table {
+            font-size: 0.8rem;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .compact-table th {
+            padding: 0.5rem 0.4rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #f0fdf4;
+            color: #166534;
+            border-bottom: 2px solid #10b981;
+            border-right: 1px solid #10b981;
+            text-align: left;
+        }
+        
+        .compact-table th:last-child {
+            border-right: none;
+        }
+        
+        .compact-table td {
+            padding: 0.4rem 0.3rem;
+            font-size: 0.75rem;
+            border-bottom: 1px solid #e5f3ef;
+            border-right: 1px solid #e5f3ef;
+            vertical-align: middle;
+        }
+        
+        .compact-table td:last-child {
+            border-right: none;
+        }
+        
+        .compact-table tr:hover {
+            background-color: #f0fdf4;
+        }
+        
+        .compact-table tr:hover td {
+            border-right-color: #10b981;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-align: center;
+            min-width: 60px;
+        }
+        
+        .status-returned {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .status-borrowed {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fed7aa;
+        }
+        
+        .book-number-cell {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #059669;
+            background: #f0fdf4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            border: 1px solid #bbf7d0;
+            font-size: 0.7rem;
+        }
+        
+        .date-cell {
+            font-size: 0.7rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .days-cell {
+            font-weight: 600;
+            color: #059669;
+            background: #f0fdf4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            text-align: center;
+            min-width: 40px;
+            font-size: 0.7rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+            font-style: italic;
+            background: #f9fafb;
+            font-size: 0.9rem;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(16, 185, 129, 0.1);
+            text-align: center;
+            border: 1px solid #e5f3ef;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #059669;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #374151;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 15px rgba(16, 185, 129, 0.2);
+            margin-bottom: 1.5rem;
+        }
+        
+        .header-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .header-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #166534;
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .history-container {
+                max-width: 95%;
+                padding: 0 0.25rem;
+            }
+            
+            .history-sections {
+                gap: 0.75rem;
+            }
+            
+            .section-header {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.9rem;
+            }
+            
+            .compact-table th,
+            .compact-table td {
+                padding: 0.3rem 0.2rem;
+                font-size: 0.7rem;
+            }
+            
+            .search-input {
+                width: 200px;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 0.75rem;
+            }
+            
+            .stat-card {
+                padding: 0.75rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .stat-label {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 style="display:flex; justify-content:space-between; align-items:center; margin:0;">
+            <span class="navbar-title" style="display:flex; align-items:center; gap:8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="#ffffff" d="M6 4v16a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm2 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8V4Zm0 0V2H6a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4h2v-2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2Z"/></svg>
+                <span class="navbar-title-text">📊 Book History</span>
+            </span>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <button id="back-to-main-btn" class="header-btn">← Back to Library</button>
+            </div>
+        </h1>
+    </nav>
+
+    <div class="history-container">
+        <!-- Statistics Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="total-borrows">0</div>
+                <div class="stat-label">Total Borrows</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="active-borrows">0</div>
+                <div class="stat-label">Active Borrows</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-returns">0</div>
+                <div class="stat-label">Total Returns</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avg-days">0</div>
+                <div class="stat-label">Avg Days</div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="history-header">
+            <h2>📚 Borrowing History</h2>
+            <div class="search-container">
+                <input type="text" id="search-input" class="search-input" placeholder="🔍 Search by name, ID, or book..." />
+            </div>
+        </div>
+
+        <!-- History Sections -->
+        <div class="history-sections">
+            <!-- Members History -->
+            <div class="history-section">
+                <div class="section-header">
+                    👥 Library Members
+                </div>
+                <div style="overflow-x: auto;">
+                    <table id="member-history-table" class="compact-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>ID</th>
+                                <th>Book</th>
+                                <th>Book No.</th>
+                                <th>Borrowed</th>
+                                <th>Returned</th>
+                                <th>Days</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Staff History -->
+            <div class="history-section">
+                <div class="section-header">
+                    👨‍🏫 Staff
+                </div>
+                <div style="overflow-x: auto;">
+                    <table id="staff-history-table" class="compact-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>TSC</th>
+                                <th>Book</th>
+                                <th>Book No.</th>
+                                <th>Borrowed</th>
+                                <th>Returned</th>
+                                <th>Days</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('back-to-main-btn').onclick = function() {
+            window.location.href = 'index.html';
+        };
+    </script>
+    <script src="book-history.js" type="module"></script>
+</body>
+</html> 

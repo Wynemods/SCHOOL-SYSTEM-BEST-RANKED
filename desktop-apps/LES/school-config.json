@@ -1,0 +1,8 @@
+{
+  "schoolName": "Lincoln Elementary",
+  "schoolCode": "LES",
+  "databasePath": "./LES-library.db",
+  "port": 3000,
+  "adminEmail": "admin@les.edu",
+  "contactPhone": "555-0000"
+}

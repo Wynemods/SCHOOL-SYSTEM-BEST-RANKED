@@ -1,0 +1,8 @@
+{
+  "schoolName": "Springfield High School",
+  "schoolCode": "SHS",
+  "databasePath": "./SHS-library.db",
+  "port": 3001,
+  "adminEmail": "admin@shs.edu",
+  "contactPhone": "555-0000"
+}

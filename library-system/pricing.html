@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pricing - Library System</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
+  <style>
+    /* Modern Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      color: #1f2937;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Navigation */
+    .nav {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2);
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-link:hover {
+      opacity: 0.9;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem 0;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #047857;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #047857 0%, #10b981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #6b7280;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Currency Selector */
+    .currency-selector {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .currency-selector h3 {
+      color: #374151;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .currency-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .currency-btn {
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #10b981;
+      border-radius: 12px;
+      background: white;
+      color: #10b981;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .currency-btn.active {
+      background: #10b981;
+      color: white;
+    }
+
+    .currency-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .exchange-rate-info {
+      margin-top: 1rem;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    /* Pricing Plans */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .plan-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      border: 2px solid transparent;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      border-color: #10b981;
+    }
+
+    .plan-card.selected {
+      border-color: #10b981;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    }
+
+    .plan-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .plan-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #047857;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-display {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .currency-symbol {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #065f46;
+    }
+
+    .price-amount {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #065f46;
+      margin: 0 0.25rem;
+    }
+
+    .period {
+      font-size: 1rem;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .discount-badge {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      color: #92400e;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      display: inline-block;
+    }
+
+    .select-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1.5rem;
+    }
+
+    .select-btn:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-2px);
+    }
+
+    /* Checkout Section */
+    .checkout-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      display: none;
+    }
+
+    .checkout-section.active {
+      display: block;
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .order-summary {
+      background: #f8fafc;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .order-summary h3 {
+      color: #374151;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .order-detail {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .order-detail:last-child {
+      border-bottom: none;
+      font-weight: 700;
+      color: #047857;
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .payment-method {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .payment-method:hover {
+      border-color: #10b981;
+      transform: translateY(-2px);
+    }
+
+    .payment-method.selected {
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .payment-form {
+      background: #f8fafc;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+
+    .security-notice {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      border: 1px solid #fbbf24;
+    }
+
+    .security-notice p {
+      color: #92400e;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .pay-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 1rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .pay-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-2px);
+    }
+
+    .pay-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    /* Trial Section */
+    .trial-section {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      padding: 2rem;
+      border-radius: 16px;
+      text-align: center;
+      margin-bottom: 2rem;
+      border: 2px solid #10b981;
+    }
+
+    .trial-section h3 {
+      color: #047857;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .trial-section p {
+      color: #374151;
+      margin-bottom: 1.5rem;
+    }
+
+    .trial-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .trial-btn:hover {
+      background: #059669;
+      transform: translateY(-2px);
+    }
+
+    /* Warnings & Footer */
+    .warnings {
+      background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      border: 1px solid #fecaca;
+    }
+
+    .warnings h4 {
+      color: #dc2626;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .warning-list {
+      list-style: none;
+    }
+
+    .warning-list li {
+      color: #991b1b;
+      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .warning-list li:before {
+      content: "⚠️";
+      position: absolute;
+      left: 0;
+    }
+
+    .payment-footer {
+      background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 16px;
+    }
+
+    .payment-footer h4 {
+      color: #10b981;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .accepted-methods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .method-badge {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .payment-footer p {
+      color: #d1d5db;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .plans-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .currency-buttons {
+        flex-direction: column;
+      }
+      
+      .payment-methods {
+        grid-template-columns: 1fr;
+      }
+      
+      .container {
+        padding: 0 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .plan-card {
+        padding: 1.5rem;
+      }
+      
+      .price-amount {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+        <a href="index-landing.html" class="nav-link">← Back to Home</a>
+      </nav>
+      
+      <!-- Hidden CSRF token input -->
+      <input type="hidden" id="csrf-token" value="YOUR_CSRF_TOKEN_HERE" />
+      
+      <div class="container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>Choose Your Plan</h1>
+      <p>Select the perfect subscription plan for your library management needs. All plans include full access to our premium features.</p>
+    </div>
+
+    <!-- Currency Selector -->
+    <div class="currency-selector">
+      <h3>🌍 Select Currency</h3>
+      <div class="currency-buttons">
+        <button class="currency-btn active" data-currency="USD" onclick="selectCurrency('USD')">
+          🇺🇸 USD
+        </button>
+        <button class="currency-btn" data-currency="KES" onclick="selectCurrency('KES')">
+          🇰🇪 KES
+        </button>
+      </div>
+      <div class="exchange-rate-info">
+        💱 Fixed exchange rate: 120 KES = 1 USD
+      </div>
+    </div>
+
+    <!-- Pricing Plans -->
+    <div class="plans-grid">
+      <div class="plan-card" data-plan="monthly" data-price-usd="60" data-billing-cycle="monthly">
+        <div class="plan-header">
+          <h3 class="plan-name">Monthly</h3>
+          <div class="price-display">
+            <span class="currency-symbol">$</span>
+            <span class="price-amount" data-usd="60" data-kes="0">60</span>
+          </div>
+          <div class="period">per month</div>
+        </div>
+        <button class="select-btn" onclick="selectPlan('monthly', 60, 'monthly')">
+          Get Started
+        </button>
+      </div>
+
+    <div class="plan-card" data-plan="quarterly" data-price-usd="206" data-billing-cycle="quarterly">
+        <div class="plan-header">
+          <h3 class="plan-name">4 Months</h3>
+          <div class="price-display">
+            <span class="currency-symbol">$</span>
+            <span class="price-amount" data-usd="206" data-kes="0">206</span>
+          </div>
+          <div class="period">every 4 months</div>
+          <div class="discount-badge">Save 14%</div>
+        </div>
+        <button class="select-btn" onclick="selectPlan('quarterly', 206, 'quarterly')">
+          Get Started
+        </button>
+      </div>
+
+      <div class="plan-card" data-plan="yearly" data-price-usd="547" data-billing-cycle="annually">
+        <div class="plan-header">
+          <h3 class="plan-name">Yearly</h3>
+          <div class="price-display">
+            <span class="currency-symbol">$</span>
+            <span class="price-amount" data-usd="547" data-kes="0">547</span>
+          </div>
+          <div class="period">per year</div>
+          <div class="discount-badge">Save 24%</div>
+        </div>
+        <button class="select-btn" onclick="selectPlan('yearly', 547, 'annually')">
+          Get Started
+        </button>
+      </div>
+    </div>
+
+    <!-- Checkout Section -->
+    <div id="checkout-section" class="checkout-section">
+      <div class="order-summary">
+        <h3>📋 Order Summary</h3>
+        <div class="order-detail">
+          <span>Plan:</span>
+          <span id="selected-plan-name">-</span>
+        </div>
+        <div class="order-detail">
+          <span>Billing:</span>
+          <span id="selected-billing-cycle">-</span>
+        </div>
+        <div class="order-detail">
+          <span>Currency:</span>
+          <span id="selected-currency">USD</span>
+        </div>
+        <div class="order-detail">
+          <span>Subtotal:</span>
+          <span id="subtotal">$0</span>
+        </div>
+        <div class="order-detail">
+          <span>Total:</span>
+          <span id="total-amount">$0</span>
+        </div>
+      </div>
+
+      <h3>💳 Payment Method</h3>
+      <div class="payment-methods">
+        <div class="payment-method" data-method="stripe" onclick="selectPaymentMethod('stripe')">
+          💳 Credit Card
+        </div>
+        <div class="payment-method" data-method="paypal" onclick="selectPaymentMethod('paypal')">
+          PayPal
+        </div>
+        <div class="payment-method" data-method="mpesa" onclick="selectPaymentMethod('mpesa')">
+          M-Pesa
+        </div>
+        <div class="payment-method" data-method="equity" onclick="selectPaymentMethod('equity')">
+          🏦 Equity Bank
+        </div>
+      </div>
+
+      <div class="payment-form">
+        <div id="stripe-form" class="payment-form-content" style="display: none;">
+          <div class="form-group">
+            <label for="card-number">Card Number</label>
+            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+          </div>
+          <div class="form-group">
+            <label for="card-cvc">CVC</label>
+            <input type="text" id="card-cvc" placeholder="123" maxlength="4">
+          </div>
+          <div class="form-group">
+            <label for="card-expiry">Expiry Date</label>
+            <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5">
+          </div>
+          <div class="form-group">
+            <label for="card-name">Cardholder Name</label>
+            <input type="text" id="card-name" placeholder="John Doe">
+          </div>
+        </div>
+
+        <div id="paypal-form" class="payment-form-content" style="display: none;">
+          <div class="form-group">
+            <label for="paypal-email">PayPal Email</label>
+            <input type="email" id="paypal-email" placeholder="your@email.com">
+          </div>
+        </div>
+
+        <div id="mpesa-form" class="payment-form-content" style="display: none;">
+          <div class="form-group">
+            <label for="mpesa-phone">M-Pesa Phone Number</label>
+            <input type="tel" id="mpesa-phone" placeholder="+254 700 000 000">
+          </div>
+          <div class="form-group">
+            <label>M-Pesa Paybill Number</label>
+            <input type="text" value="+254799768776" readonly style="background: #f3f4f6;">
+          </div>
+        </div>
+
+        <div id="equity-form" class="payment-form-content" style="display: none;">
+          <div class="form-group">
+            <label for="equity-phone">Equity Mobile Banking Phone</label>
+            <input type="tel" id="equity-phone" placeholder="+254 700 000 000">
+          </div>
+          <div class="form-group">
+            <label>Equity Bank Account Number</label>
+            <input type="text" value="0210186434183" readonly style="background: #f3f4f6;">
+          </div>
+        </div>
+      </div>
+
+      <div class="security-notice">
+        <p>🔒 All payments are encrypted and protected with SSL/TLS end-to-end encryption</p>
+      </div>
+
+      <button id="pay-button" class="pay-btn" onclick="processPayment()" disabled>
+        Complete Payment
+      </button>
+    </div>
+
+    <!-- Trial Section -->
+    <div class="trial-section">
+      <h3>🚀 Start with a Free Trial</h3>
+      <p>Experience our library system for 14 days with full access to all features. No credit card required.</p>
+      <button class="trial-btn" onclick="startTrial()">Start Free Trial</button>
+    </div>
+
+    <!-- Warnings -->
+    <div class="warnings">
+      <h4>⚠️ Important Payment Information</h4>
+      <ul class="warning-list">
+        <li>Always verify payment details before proceeding</li>
+        <li>Keep your transaction confirmation number for verification</li>
+        <li>Exchange rate fixed at 120 KES per 1 USD</li>
+      </ul>
+    </div>
+
+    <!-- Payment Footer -->
+    <div class="payment-footer">
+      <h4>Accepted Payment Methods</h4>
+      <div class="accepted-methods">
+        <div class="method-badge">Stripe (Cards, Apple Pay, Google Pay)</div>
+        <div class="method-badge">PayPal</div>
+        <div class="method-badge">M-Pesa (+254799768776)</div>
+        <div class="method-badge">Equity Bank (0210186434183)</div>
+      </div>
+      <p>All payments are processed securely with industry-standard encryption and fraud protection.</p>
+    </div>
+  </div>
+
+  <script>
+    let selectedPlan = null;
+    let selectedPaymentMethod = null;
+    let selectedCurrency = 'USD';
+    let exchangeRate = 120; // Fixed rate: 1 USD = 120 KES
+    
+    function selectCurrency(currency) {
+      selectedCurrency = currency;
+      
+      // Update active button
+      document.querySelectorAll('.currency-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Update prices
+      updatePrices();
+      
+      // Update checkout if plan is selected
+      if (selectedPlan) {
+        updateCheckoutSummary();
+      }
+    }
+    
+    function updatePrices() {
+      const priceElements = document.querySelectorAll('.price-amount');
+      const currencySymbols = document.querySelectorAll('.currency-symbol');
+      
+      priceElements.forEach((element, index) => {
+        const usdPrice = parseFloat(element.dataset.usd);
+        let displayPrice = usdPrice;
+        let symbol = '$';
+        
+        if (selectedCurrency === 'KES') {
+          displayPrice = Math.round(usdPrice * exchangeRate);
+          symbol = 'KSh';
+        }
+        
+        element.textContent = displayPrice;
+        currencySymbols[index].textContent = symbol;
+      });
+    }
+    
+    function selectPlan(plan, price, cycle) {
+      // Remove previous selection
+      document.querySelectorAll('.plan-card').forEach(p => p.classList.remove('selected'));
+      
+      // Select current plan
+      event.target.closest('.plan-card').classList.add('selected');
+      
+      selectedPlan = { plan, price, cycle };
+      
+      // Show checkout section
+      document.getElementById('checkout-section').classList.add('active');
+      
+      // Update order summary
+      updateCheckoutSummary();
+      
+      // Enable pay button
+      document.getElementById('pay-button').disabled = false;
+      updatePayButtonText();
+    }
+    
+    function updateCheckoutSummary() {
+      const planName = selectedPlan.plan.charAt(0).toUpperCase() + selectedPlan.plan.slice(1);
+      const cycle = selectedPlan.plan === 'monthly' ? 'Monthly' : 
+                   selectedPlan.plan === 'quarterly' ? 'Quarterly' : 'Annually';
+      
+      document.getElementById('selected-plan-name').textContent = planName;
+      document.getElementById('selected-billing-cycle').textContent = cycle;
+      document.getElementById('selected-currency').textContent = selectedCurrency;
+      
+      let displayPrice = selectedPlan.price;
+      let symbol = '$';
+      
+      if (selectedCurrency === 'KES') {
+        displayPrice = Math.round(selectedPlan.price * exchangeRate);
+        symbol = 'KSh';
+      }
+      
+      document.getElementById('subtotal').textContent = `${symbol}${displayPrice}`;
+      document.getElementById('total-amount').textContent = `${symbol}${displayPrice}`;
+    }
+    
+    function updatePayButtonText() {
+      let displayPrice = selectedPlan.price;
+      let symbol = '$';
+      
+      if (selectedCurrency === 'KES') {
+        displayPrice = Math.round(selectedPlan.price * exchangeRate);
+        symbol = 'KSh';
+      }
+      
+      document.getElementById('pay-button').textContent = `Pay ${symbol}${displayPrice}`;
+    }
+    
+    function selectPaymentMethod(method) {
+      // Remove previous selection
+      document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+      
+      // Select current method
+      event.target.classList.add('selected');
+      
+      selectedPaymentMethod = method;
+      
+      // Hide all forms
+      document.querySelectorAll('.payment-form-content').forEach(f => f.style.display = 'none');
+      
+      // Show selected form
+      document.getElementById(`${method}-form`).style.display = 'block';
+    }
+    
+    function processPayment() {
+      if (!selectedPlan || !selectedPaymentMethod) {
+        alert('Please select a plan and payment method');
+        return;
+      }
+      
+      const payButton = document.getElementById('pay-button');
+      payButton.disabled = true;
+      payButton.textContent = 'Processing...';
+      
+      // Generate unique transaction ID
+      const transactionId = 'TXN_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+      
+      // Simulate payment processing
+      setTimeout(() => {
+        const success = Math.random() > 0.2; // 80% success rate for demo
+        
+        if (success) {
+          updateUserAccount(transactionId);
+          window.location.href = '/payment-success';
+        } else {
+          window.location.href = '/payment-failed';
+        }
+      }, 3000);
+    }
+    
+    function updateUserAccount(transactionId) {
+          console.log('Payment successful - updating user account...', { transactionId });
+          
+          // Get CSRF token
+          const csrfToken = document.getElementById('csrf-token').value;
+          
+          fetch('/api/payment-success', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({
+              plan: selectedPlan.plan,
+              amount: selectedPlan.price,
+              currency: selectedCurrency,
+              paymentMethod: selectedPaymentMethod,
+              transactionId: transactionId,
+              timestamp: new Date().toISOString()
+            })
+          });
+        }
+    
+    function startTrial() {
+          alert('Starting your 14-day free trial! You\'ll have access to all features.');
+          
+          // Get CSRF token
+          const csrfToken = document.getElementById('csrf-token').value;
+          
+          fetch('/api/start-trial', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({
+              startDate: new Date().toISOString(),
+              endDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString()
+            })
+          });
+        }
+    
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      updatePrices();
+    });
+  </script>
+</body>
+</html>

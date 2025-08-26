@@ -1,0 +1,8 @@
+{
+  "schoolName": "Riverside Academy",
+  "schoolCode": "RAC",
+  "databasePath": "./RAC-library.db",
+  "port": 3000,
+  "adminEmail": "admin@rac.edu",
+  "contactPhone": "555-0000"
+}

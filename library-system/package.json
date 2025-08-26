@@ -1,0 +1,26 @@
+{
+  "name": "library-system",
+  "version": "1.0.0",
+  "description": "A comprehensive library management system",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 3000 --cors",
+    "dev": "http-server -p 3000 --cors -c-1",
+    "build": "tsc",
+    "serve": "http-server -p 3000 --cors"
+  },
+  "keywords": [
+    "library",
+    "management",
+    "system",
+    "books",
+    "members",
+    "staff"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "school-library-system",
+  "version": "1.0.0",
+  "description": "Library Management System for Schools",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "library",
+    "school",
+    "management"
+  ],
+  "author": "School Library System",
+  "license": "MIT"
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Notification System</title>
+    <link rel="stylesheet" href="library-system/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Notification System</h1>
+        
+        <div style="margin: 20px 0;">
+            <button onclick="testDetailedError()">Test Detailed Error Message</button>
+            <button onclick="testSimpleError()">Test Simple Error</button>
+            <button onclick="testSuccess()">Test Success Message</button>
+        </div>
+        
+        <div id="notification"></div>
+    </div>
+    
+    <script>
+        function showNotification(message, type = '') {
+            const notification = document.getElementById('notification');
+            
+            // Handle detailed error messages
+            if (typeof message === 'object' && message.error) {
+                let fullMessage = message.error;
+                if (message.details) {
+                    fullMessage += '\n\n' + message.details;
+                }
+                notification.textContent = fullMessage;
+            } else {
+                notification.textContent = message;
+            }
+            
+            notification.className = type ? `error ${type === 'error' ? 'error' : 'success'}` : '';
+            notification.style.display = 'block';
+            
+            // Show longer for detailed messages
+            const duration = (typeof message === 'object' && message.details) ? 5000 : 2000;
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, duration);
+        }
+        
+        function testDetailedError() {
+            const errorMessage = {
+                error: 'TSC Number already exists',
+                details: 'TSC Number "TSC 455" is already assigned to staff "Jnae wyne 67". Please use a different TSC Number.'
+            };
+            showNotification(errorMessage, 'error');
+        }
+        
+        function testSimpleError() {
+            showNotification('This is a simple error message', 'error');
+        }
+        
+        function testSuccess() {
+            showNotification('Staff saved successfully!', 'success');
+        }
+    </script>
+</body>
+</html> 

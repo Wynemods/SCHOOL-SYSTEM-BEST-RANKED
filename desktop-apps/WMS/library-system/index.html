@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Library System</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="notification" style="display:none;"></div>
+    <div id="alert-container" style="display:none;"></div>
+    <nav class="navbar">
+        <h1 style="display:flex; justify-content:space-between; align-items:center; margin:0;">
+            <span class="navbar-title" style="display:flex; align-items:center; gap:8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24"><path fill="#22c55e" d="M6 4v16a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm2 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8V4Zm0 0V2H6a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4h2v-2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2Z"/></svg>
+                <span class="navbar-title-text">Library System</span>
+            </span>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <input type="text" id="member-search" placeholder="Search members..." />
+                <button id="book-history-btn" class="header-btn">Book History</button>
+                <button id="staff-btn" class="header-btn">Staff</button>
+            </div>
+        </h1>
+    </nav>
+
+    <section id="books-section">
+        <h2>Books</h2>
+        <form id="book-form">
+            <input type="hidden" id="book-id" />
+            <div class="form-row">
+                <label for="book-title" style="margin-bottom:0;">Title:</label>
+                <input type="text" id="book-title" required />
+                <label for="book-author" style="margin-bottom:0; margin-left:8px;">Author:</label>
+                <input type="text" id="book-author" required />
+                <button type="submit">Add Book</button>
+            </div>
+            <button type="button" id="book-cancel-btn" style="display:none;">Cancel</button>
+        </form>
+        <table id="books-table">
+             <thead>
+        <tr>
+                    <th>No.</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Borrowed By</th>
+                    <th>Actions</th>
+         </tr>
+         </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section id="members-section">
+        <h2>Members</h2>
+        <form id="member-form">
+            <input type="hidden" id="member-id" />
+            <label for="member-name">Name:</label>
+            <div class="form-row">
+                <input type="text" id="member-name" required />
+                <button type="submit">Add Member</button>
+            </div>
+            <button type="button" id="member-cancel-btn" style="display:none;">Cancel</button>
+        </form>
+        <table id="members-table">
+            <thead>
+             <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Borrowed Books</th>
+                    <th>Actions</th>
+                </tr>
+        </thead>
+            <tbody></tbody>
+    </table>
+    </section>
+
+    <div id="borrow-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <form id="borrow-form">
+                <label for="borrow-member-name" style="font-weight:500;">Enter member name to borrow this book:</label>
+                <input type="text" id="borrow-member-name" required style="margin-top:8px; width:100%;" autocomplete="off" />
+                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+                    <button type="button" id="borrow-cancel-btn">Cancel</button>
+                    <button type="submit" id="borrow-confirm-btn">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="member-return-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <form id="member-return-form">
+                <div id="member-return-list" style="margin-bottom: 16px;"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <button type="button" id="member-return-select-all">Select All</button>
+                    <div>
+                        <button type="button" id="member-return-cancel">Cancel</button>
+                        <button type="submit" id="member-return-confirm">Return</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="library-system.js" type="module"></script>
+</body>
+</html>

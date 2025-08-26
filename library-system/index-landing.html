@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome to Library System</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      color: #1f2937;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    header {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: white;
+      padding: 25px 50px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3);
+      position: relative;
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      color: white;
+      text-decoration: none;
+    }
+    .logo:hover {
+      color: #bbf7d0;
+      transition: color 0.3s ease;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    nav a:hover {
+      color: #bbf7d0;
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-1px);
+    }
+    .auth-buttons {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    .btn-login {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .btn-login:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-1px);
+    }
+    .btn-register {
+      background: #059669;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .btn-register:hover {
+      background: #047857;
+      transform: translateY(-1px);
+    }
+    main {
+      max-width: 1400px;
+      margin: 50px auto;
+      padding: 0 50px;
+    }
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 60px;
+      margin-bottom: 80px;
+      padding: 60px 0;
+    }
+    .hero-text {
+      flex: 1 1 700px;
+    }
+    .hero-text h2 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      margin-bottom: 25px;
+      color: #15803d;
+      line-height: 1.1;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .hero-text p {
+      font-size: 1.2rem;
+      color: #374151;
+      margin-bottom: 30px;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: white;
+      padding: 16px 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 35px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(22, 163, 74, 0.5);
+    }
+    .hero-image {
+      flex: 1 1 600px;
+      max-width: 600px;
+    }
+    .hero-image img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+    .hero-image img:hover {
+      transform: scale(1.02);
+    }
+    
+    /* Extended Landing Content */
+    .landing-extended {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border-radius: 25px;
+      padding: 60px 50px;
+      margin: 60px 0;
+      box-shadow: 0 10px 30px rgba(22, 163, 74, 0.1);
+      border: 1px solid rgba(22, 163, 74, 0.1);
+    }
+    .landing-extended h3 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #15803d;
+      margin-bottom: 30px;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .landing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .landing-item {
+      background: white;
+      border-radius: 20px;
+      padding: 35px 30px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(22, 163, 74, 0.1);
+    }
+    .landing-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+      border-color: rgba(22, 163, 74, 0.2);
+    }
+    .landing-item h4 {
+      color: #15803d;
+      font-weight: 600;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+    .landing-item p {
+      color: #4b5563;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .landing-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-list li {
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+    }
+    .feature-list li::before {
+      content: '✓';
+      color: #16a34a;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+    
+    .section {
+      margin-bottom: 70px;
+    }
+    .section h3 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #15803d;
+      margin-bottom: 35px;
+      text-align: center;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .features {
+      display: flex;
+      gap: 35px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .feature {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 35px 25px;
+      flex: 1 1 360px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(22, 163, 74, 0.1);
+    }
+    .feature:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.15);
+      border-color: rgba(22, 163, 74, 0.2);
+    }
+    .feature img {
+      width: 80px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    .feature:hover img {
+      transform: scale(1.1);
+    }
+    .feature h4 {
+      color: #15803d;
+      font-weight: 600;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+    .feature p {
+      color: #4b5563;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    /* Categories Section */
+    .categories-section {
+      background: linear-gradient(135deg, #f8fafc 0%, #dcfce7 100%);
+      border-radius: 25px;
+      padding: 60px 40px;
+      margin: 70px 0;
+      box-shadow: 0 12px 35px rgba(22, 163, 74, 0.1);
+    }
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .category-card {
+      background: white;
+      border-radius: 18px;
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    .category-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #16a34a, #059669, #047857, #065f46);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .category-card:hover::before {
+      transform: scaleX(1);
+    }
+    .category-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+      border-color: rgba(22, 163, 74, 0.2);
+    }
+    .category-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 18px;
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.8rem;
+      transition: transform 0.3s ease;
+    }
+    .category-card:hover .category-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+    .category-card h4 {
+      color: #15803d;
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+    .category-card p {
+      color: #6b7280;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+    .category-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid #e5e7eb;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #16a34a;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+    
+    .about {
+      background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+      border-radius: 22px;
+      padding: 45px 55px;
+      box-shadow: 0 12px 35px rgba(22, 163, 74, 0.15);
+      color: #15803d;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 1000px;
+      margin: 0 auto 70px auto;
+      text-align: center;
+      border: 1px solid rgba(22, 163, 74, 0.2);
+    }
+    
+    /* Professional Footer */
+    .footer {
+      background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+      color: white;
+      padding: 55px 0 25px;
+      margin-top: 70px;
+    }
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 35px;
+    }
+    .footer-section h4 {
+      color: #4ade80;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      border-bottom: 2px solid #22c55e;
+      padding-bottom: 8px;
+    }
+    .footer-section p, .footer-section a {
+      color: #d1d5db;
+      text-decoration: none;
+      line-height: 1.7;
+      transition: color 0.3s ease;
+      font-size: 0.9rem;
+    }
+    .footer-section a:hover {
+      color: #4ade80;
+    }
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-section ul li {
+      margin-bottom: 8px;
+    }
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .social-link {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+    }
+    .social-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(34, 197, 94, 0.4);
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 25px;
+      margin-top: 35px;
+      border-top: 1px solid #374151;
+      color: #9ca3af;
+      font-size: 0.85rem;
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 20px 20px;
+      }
+      .header-content {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .logo {
+        font-size: 1.5rem;
+      }
+      main {
+        padding: 0 20px;
+      }
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+      }
+      .hero-text h2 {
+        font-size: 2.5rem;
+      }
+      .landing-grid {
+        grid-template-columns: 1fr;
+      }
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-content {
+        padding: 0 20px;
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="index-landing.html" class="logo">📚 Library System</a>
+      <nav>
+        <a href="index-landing.html">Home</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="staff.html">Staff</a>
+        <a href="book-history.html">Book History</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="auth-buttons">
+        <a href="login.html" class="btn-login">Login</a>
+        <a href="register.html" class="btn-register">Register</a>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <section class="hero" aria-label="Introduction">
+      <div class="hero-text">
+        <h2>Transform Your Library Management</h2>
+        <p>Experience the future of library administration with our cutting-edge system. Streamline operations, enhance user experience, and maintain perfect records with our comprehensive platform designed for modern educational institutions.</p>
+        <a href="pricing.html" class="btn-primary" role="button">Explore Our Solutions</a>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80" alt="Library books and computer" />
+      </div>
+    </section>
+    
+    <!-- Extended Landing Content -->
+    <section class="landing-extended" aria-label="Extended Features">
+      <h3>Comprehensive Library Management Solutions</h3>
+      <div class="landing-grid">
+        <div class="landing-item">
+          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=400&q=80" alt="Digital library interface" />
+          <h4>Digital Transformation</h4>
+          <p>Modernize your library operations with our intuitive digital platform that streamlines every aspect of book management.</p>
+          <ul class="feature-list">
+            <li>Cloud-based accessibility</li>
+            <li>Real-time synchronization</li>
+            <li>Multi-device support</li>
+            <li>Automated workflows</li>
+          </ul>
+        </div>
+        
+        <div class="landing-item">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80" alt="Data analytics dashboard" />
+          <h4>Advanced Analytics</h4>
+          <p>Gain valuable insights into library usage patterns, popular books, and user behavior with comprehensive reporting tools.</p>
+          <ul class="feature-list">
+            <li>Usage statistics</li>
+            <li>Trend analysis</li>
+            <li>Custom reports</li>
+            <li>Performance metrics</li>
+          </ul>
+        </div>
+        
+        <div class="landing-item">
+          <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=400&q=80" alt="Security and compliance" />
+          <h4>Enterprise Security</h4>
+          <p>Protect your library data with enterprise-grade security features including encryption, access controls, and audit trails.</p>
+          <ul class="feature-list">
+            <li>256-bit encryption</li>
+            <li>Role-based access</li>
+            <li>Compliance monitoring</li>
+            <li>Data backup</li>
+          </ul>
+        </div>
+        
+        <div class="landing-item">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80" alt="Mobile library app" />
+          <h4>Mobile Excellence</h4>
+          <p>Provide seamless access to library services across all devices with our responsive, mobile-first design approach.</p>
+          <ul class="feature-list">
+            <li>Responsive design</li>
+            <li>Touch-friendly interface</li>
+            <li>Offline capabilities</li>
+            <li>Cross-platform sync</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+    <section class="section" aria-label="Key Features">
+      <h3>Powerful Features</h3>
+      <div class="features">
+        <article class="feature" tabindex="0">
+          <img src="https://img.icons8.com/ios-filled/100/16a34a/book.png" alt="Book icon" />
+          <h4>Book Management</h4>
+          <p>Easily add, update, and track books for members and staff with detailed borrowing status.</p>
+        </article>
+        <article class="feature" tabindex="0">
+          <img src="https://img.icons8.com/ios-filled/100/16a34a/conference-call.png" alt="Member icon" />
+          <h4>Member & Staff Management</h4>
+          <p>Maintain accurate records of members and staff with unique identifiers and borrowing privileges.</p>
+        </article>
+        <article class="feature" tabindex="0">
+          <img src="https://img.icons8.com/ios-filled/100/16a34a/time-machine.png" alt="History icon" />
+          <h4>Borrowing History</h4>
+          <p>Keep a permanent, read-only history of all borrowing and returning transactions for accountability.</p>
+        </article>
+        <article class="feature" tabindex="0">
+          <img src="https://img.icons8.com/ios-filled/100/16a34a/lock-2.png" alt="Security icon" />
+          <h4>Secure & Reliable</h4>
+          <p>Built with security in mind, ensuring data protection and secure payment processing.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section" aria-label="System Categories">
+      <h3>Comprehensive Library Solutions</h3>
+      <div class="categories-grid">
+        <div class="category-card">
+          <div class="category-icon">📚</div>
+          <h4>Book Collection</h4>
+          <p>Manage diverse book collections with advanced categorization, search, and inventory tracking.</p>
+          <div class="category-stats">
+            <div class="stat">
+              <div class="stat-number">10K+</div>
+              <div class="stat-label">Books</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Categories</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="category-card">
+          <div class="category-icon">👥</div>
+          <h4>User Management</h4>
+          <p>Comprehensive user profiles with role-based access control and borrowing privileges.</p>
+          <div class="category-stats">
+            <div class="stat">
+              <div class="stat-number">5K+</div>
+              <div class="stat-label">Users</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">3</div>
+              <div class="stat-label">Roles</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="category-card">
+          <div class="category-icon">📊</div>
+          <h4>Analytics & Reports</h4>
+          <p>Generate detailed reports on borrowing patterns, popular books, and system usage statistics.</p>
+          <div class="category-stats">
+            <div class="stat">
+              <div class="stat-number">24/7</div>
+              <div class="stat-label">Monitoring</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Accuracy</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="category-card">
+          <div class="category-icon">🔒</div>
+          <h4>Security & Compliance</h4>
+          <p>Enterprise-grade security with data encryption, audit trails, and compliance monitoring.</p>
+          <div class="category-stats">
+            <div class="stat">
+              <div class="stat-number">256-bit</div>
+              <div class="stat-label">Encryption</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">99.9%</div>
+              <div class="stat-label">Uptime</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="category-card">
+          <div class="category-icon">📱</div>
+          <h4>Mobile Ready</h4>
+          <p>Responsive design that works seamlessly across all devices and screen sizes.</p>
+          <div class="category-stats">
+            <div class="stat">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Responsive</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">5+</div>
+              <div class="stat-label">Devices</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="category-card">
+          <div class="category-icon">⚡</div>
+          <h4>Performance</h4>
+          <p>Lightning-fast performance with optimized database queries and efficient data processing.</p>
+          <div class="category-stats">
+            <div class="stat">
+              <div class="stat-number"><1s</div>
+              <div class="stat-label">Response</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">10K+</div>
+              <div class="stat-label">TPS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="roles" aria-label="Key Roles in Library System">
+      <h3>Understanding Our Library System Roles</h3>
+      <div class="features">
+        <article class="feature" tabindex="0">
+          <img src="https://img.icons8.com/ios-filled/100/16a34a/administrator-male.png" alt="Librarian icon" />
+          <h4>Librarian</h4>
+          <p><strong>Master of the System</strong></p>
+          <p>Responsible for adding new books to the system with accurate details. Must remember <strong>GIGO</strong> - Garbage In, Garbage Out - ensuring all data entered is accurate and complete. Updates the system when books are borrowed, returned, or edited. Manages all borrowing transactions and maintains system integrity.</p>
+        </article>
+        <article class="feature" tabindex="0">
+          <img src="https://img.icons8.com/ios-filled/100/16a34a/teacher.png" alt="Staff icon" />
+          <h4>Staff</h4>
+          <p><strong>System Observer</strong></p>
+          <p>Can access the system to view borrowed and returned books through the interface. Able to navigate between pages to monitor library activities. <strong>Cannot modify</strong> any data in the system - only view and track what's happening with books and members.</p>
+        </article>
+        <article class="feature" tabindex="0">
+          <img src="https://img.icons8.com/ios-filled/100/16a34a/manager.png" alt="Principal icon" />
+          <h4>Principal/Dean</h4>
+          <p><strong>System Overseer</strong></p>
+          <p>Same viewing access as staff - can see all borrowed and returned books. Additionally, has exclusive access to the <strong>pricing page</strong> to view subscription details and costs. Cannot modify system data but can monitor all library activities and financial aspects.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="about" aria-label="About the Library System">
+      <h3>How Our Library System Solves Major School Problems</h3>
+      <p>
+        Managing a school library can be complex and time-consuming. Our system streamlines book lending, member and staff management, and borrowing history tracking, reducing manual errors and saving valuable time.
+      </p>
+      <p>
+        By providing a centralized, easy-to-use platform, schools can improve accountability, reduce book loss, and enhance user satisfaction. Our secure system ensures data privacy and supports future payment integrations for subscription management.
+      </p>
+    </section>
+  </main>
+  
+  <!-- Professional Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Contact Information</h4>
+        <p>📧 Kingstonmuhoro@gmail.com</p>
+        <p>📞 +254799768776</p>
+        <p>📍 123 Chuka University</p>
+        <p>🕒 Mon-Fri: 8:00 AM - 6:00 PM</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="pricing.html">Services & Pricing</a></li>
+          <li><a href="staff.html">Staff Portal</a></li>
+          <li><a href="book-history.html">Book History</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Register</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Legal & Policy</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Data Protection</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Accessibility</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Connect With Us</h4>
+        <p>Follow us on social media for updates, tips, and library management insights.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook">📘</a>
+          <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
+          <a href="#" class="social-link" aria-label="Instagram">📷</a>
+        </div>
+        <p style="margin-top: 18px;">Subscribe to our newsletter for the latest updates and features.</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 Library System. All rights reserved. | Designed with ❤️ for educational excellence</p>
+    </div>
+  </footer>
+</body>
+</html>

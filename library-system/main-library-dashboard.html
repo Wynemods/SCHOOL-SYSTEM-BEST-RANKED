@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Main Library Dashboard</title>
+        <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            color: #22c55e;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .nav-btn {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .search-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        
+        .section {
+            padding: 25px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section h2 {
+            margin: 0 0 15px 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+        }
+        
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .table-container {
+            margin-top: 20px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .data-table th {
+            background: #f8f9fa;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 2px solid #3498db;
+            border-right: 1px solid #e0e0e0;
+        }
+        
+        .data-table th:last-child {
+            border-right: none;
+        }
+        
+        .data-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            border-right: 1px solid #e0e0e0;
+        }
+        
+        .data-table td:last-child {
+            border-right: none;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-edit {
+            background: linear-gradient(135deg, #374151 0%, #1f2937 100%); /* Warm Black */
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px; /* Kept rounded */
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(55, 65, 81, 0.3);
+        }
+        
+        .btn-edit:hover {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(55, 65, 81, 0.4);
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); /* Red */
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px; /* Kept rounded */
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        }
+        
+        .btn-delete:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+        
+        .btn-borrow {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); /* Sky Blue */
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+        }
+        
+        .btn-borrow:hover {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+        }
+        
+        .btn-return {
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); /* Warm Orange */
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+        }
+        
+        .btn-return:hover {
+            background: linear-gradient(135deg, #c2410c 0%, #a16207 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4);
+        }
+        
+        .status-available {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .status-borrowed {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .book-number {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #2196F3;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #95a5a6;
+            font-style: italic;
+        }
+        
+        /* Search highlight functionality */
+                .search-highlight {
+                    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+                    animation: glow 2s ease-in-out;
+                    border-radius: 4px;
+                    padding: 2px 4px;
+                }
+                
+                @keyframes glow {
+                    0%, 100% {
+                        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+                        box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+                    }
+                    50% {
+                        background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+                        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+                    }
+                }
+        
+        /* Professional Modal Styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-content h3 {
+            margin: 0 0 20px 0;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .modal-content form {
+            margin: 0;
+        }
+        
+        .modal-content label {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .modal-content label:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .modal-content input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: #3498db;
+        }
+        
+        .modal-content input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        
+        .modal-content input[type="text"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            gap: 15px;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .modal-btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #1f5f8b 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .modal-btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            color: white;
+        }
+        
+        .modal-btn-secondary:hover {
+            background: linear-gradient(135deg, #7f8c8d 0%, #6c7b7d 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
+        }
+        
+        .modal-btn-select-all {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+        }
+        
+        .modal-btn-select-all:hover {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        }
+        
+        .borrow-instruction {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            border-left: 4px solid #10b981;
+        }
+        
+        .instruction-icon {
+            font-size: 20px;
+            color: #10b981;
+        }
+        
+        .instruction-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: #166534;
+            line-height: 1.4;
+        }
+
+        /* User Settings Modal Styles */
+        .user-info {
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .role-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .settings-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .user-settings-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .user-settings-btn:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-group {
+                min-width: auto;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <style>
+        #notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            z-index: 1001;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: slideInRight 0.4s ease;
+        }
+        
+        #notification.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-left: 4px solid #047857;
+        }
+        
+        #notification.error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border-left: 4px solid #b91c1c;
+        }
+        
+        #notification.info {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-left: 4px solid #1e40af;
+        }
+        
+        #notification.warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-left: 4px solid #b45309;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .notification-icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="notification" style="display:none;"></div>
+    <div id="alert-container" style="display:none;"></div>
+    <!-- Hidden CSRF token input -->
+    <input type="hidden" id="csrf-token" value="YOUR_CSRF_TOKEN_HERE" />
+    
+    <div class="container">
+        <div class="header">
+            <h1>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24"><path fill="#22c55e" d="M6 4v16a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm2 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8V4Zm0 0V2H6a4 4 0 0 0-4 4v12a4 4 0 0 0 4 4h2v-2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2Z"/></svg>
+                Library System
+            </h1>
+        <div class="nav-buttons">
+            <input type="text" id="member-search" placeholder="Search by name, ID, book number..." class="search-input" />
+            <a href="book-history.html" class="nav-btn">Book History</a>
+            <a href="staff.html" class="nav-btn">Staff</a>
+            <div class="user-profile">
+                <button id="user-settings-btn" class="nav-btn user-settings-btn" title="User Settings">
+                    ⚙️
+                </button>
+            </div>
+        </div>
+
+        <!-- Books Section -->
+        <div class="section">
+            <h2>📚 Books</h2>
+            <form id="book-form">
+                <input type="hidden" id="book-id" />
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="book-title">Title:</label>
+                        <input type="text" id="book-title" required placeholder="Enter book title" />
+                    </div>
+                    <div class="form-group">
+                        <label for="book-author">Author:</label>
+                        <input type="text" id="book-author" required placeholder="Enter author name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="book-number">Book No:</label>
+                        <input type="text" id="book-number" required placeholder="e.g., EBC/67887/23" 
+                               pattern="[A-Za-z0-9\/\-_\.]{2,15}" 
+                               title="Book number must be 2-15 characters (letters, numbers, and separators: /, -, _, .)" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Add Book</button>
+                        <button type="button" id="book-cancel-btn" class="btn" style="display:none; margin-left: 10px; background: #95a5a6;">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="table-container">
+                <table id="books-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Book No.</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Borrowed By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Members Section -->
+        <div class="section">
+            <h2>👥 Members</h2>
+            <form id="member-form">
+                <input type="hidden" id="member-id" />
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="member-name">Name:</label>
+                        <input type="text" id="member-name" required placeholder="Enter member name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="member-admid">ADM/ID No:</label>
+                        <input type="text" id="member-admid" required placeholder="Enter ADM/ID No" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Add Member</button>
+                        <button type="button" id="member-cancel-btn" class="btn" style="display:none; margin-left: 10px; background: #95a5a6;">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="table-container">
+                <table id="members-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>ADM/ID No</th>
+                            <th>Borrowed Books</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Borrow Modal -->
+    <div id="borrow-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <form id="borrow-form">
+                <h3>Borrow Book</h3>
+                <div class="borrow-instruction">
+                    <span class="instruction-icon">👤</span>
+                    <span class="instruction-text">Enter member name to borrow this book:</span>
+                </div>
+                <input type="text" id="borrow-member-name" required autocomplete="off" />
+                <div class="modal-buttons">
+                    <div></div>
+                    <div style="display:flex; gap:10px;">
+                        <button type="button" id="borrow-cancel-btn" class="modal-btn modal-btn-secondary">Cancel</button>
+                        <button type="submit" id="borrow-confirm-btn" class="modal-btn modal-btn-primary">Confirm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Member Return Modal -->
+    <div id="member-return-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <form id="member-return-form">
+                <div id="member-return-list"></div>
+                <div class="modal-buttons">
+                    <button type="button" id="member-return-select-all" class="modal-btn modal-btn-select-all">Select All</button>
+                    <div style="display:flex; gap:10px;">
+                        <button type="button" id="member-return-cancel" class="modal-btn modal-btn-secondary">Cancel</button>
+                        <button type="submit" id="member-return-confirm" class="modal-btn modal-btn-primary">Return Books</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Settings Modal -->
+    <div id="user-settings-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>👤 User Settings</h3>
+            
+            <div class="user-info">
+                <div class="info-row">
+                    <span class="info-label">Name:</span>
+                    <span id="user-name" class="info-value"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span id="user-email" class="info-value"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Role:</span>
+                    <span id="user-role" class="info-value role-badge"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status:</span>
+                    <span id="user-status" class="info-value status-active"></span>
+                </div>
+            </div>
+
+            <div class="settings-actions">
+                <button id="edit-profile-btn" class="modal-btn modal-btn-primary">Edit Profile</button>
+                <button id="logout-btn" class="modal-btn modal-btn-secondary">Logout</button>
+                <button id="close-settings-btn" class="modal-btn modal-btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="library-system.js" type="module"></script>
+</body>
+</html>

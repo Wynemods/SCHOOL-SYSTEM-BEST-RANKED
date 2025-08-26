@@ -1,0 +1,658 @@
+/* Modern, professional, responsive design for Library System */
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.main-content {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 18px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+h1, h2, h3 {
+    color: #000;
+    margin-top: 0;
+}
+
+#role-display {
+    font-size: 1em;
+    color: #000;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    margin-top: 10px;
+    box-shadow: none;
+}
+
+section {
+    background: none;
+    padding: 0;
+    margin: 0 0 14px 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+    max-width: none;
+    text-align: left;
+}
+
+/* Utility class for right-aligned buttons */
+.button-group, .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* Optionally, make table and form fill the section */
+table, form {
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-top: 6px;
+    font-weight: normal;
+    color: #000;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    width: 100%;
+    padding: 5px 6px;
+    margin-top: 2px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-size: 1em;
+    background: #fff;
+    transition: none;
+}
+input:focus {
+    border: 1px solid #000;
+    outline: none;
+}
+
+button, .action-btn {
+    margin-left: 6px;
+    border-radius: 12px;
+    transition: background 0.2s, color 0.2s;
+    padding: 6px 14px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
+    background: #f7f7f7;
+    color: #000;
+    border: 1px solid #bbb;
+    cursor: pointer;
+}
+button:hover, .action-btn:hover {
+    background: #e5e5e5;
+}
+
+#logout-btn {
+    float: right;
+    margin-bottom: 8px;
+    background: #f7f7f7;
+    color: #000;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 12px;
+    box-shadow: none;
+    border: 1px solid #bbb;
+}
+#logout-btn:hover {
+    background: #e5e5e5;
+}
+
+form {
+    margin-bottom: 8px;
+}
+
+#member-search {
+    min-width: 130px;
+    max-width: 180px;
+    height: 30px;
+    padding: 5px 14px;
+    font-size: 0.95em;
+    border-radius: 18px;
+    border: 2px solid #111;
+    outline: none;
+    margin-left: auto;
+    margin-right: 24px;
+    transition: border 0.2s, box-shadow 0.2s;
+    background: #fff;
+    display: flex;
+    align-items: center;
+}
+#member-search:focus {
+    border: 2px solid #222;
+    box-shadow: 0 0 0 2px #2222;
+}
+.member-glow {
+    animation: member-glow-effect 2s ease-in-out;
+    box-shadow: 0 0 0 4px #38bdf8, 0 0 16px 4px #bae6fd;
+    background: #e0f2fe !important;
+}
+@keyframes member-glow-effect {
+    0% { box-shadow: 0 0 0 4px #38bdf8, 0 0 16px 4px #bae6fd; background: #e0f2fe; }
+    80% { box-shadow: 0 0 0 4px #38bdf8, 0 0 16px 4px #bae6fd; background: #e0f2fe; }
+    100% { box-shadow: none; background: none; }
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: #fff;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    font-size: 0.97em;
+}
+th, td {
+    padding: 6px 4px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    font-size: 1em;
+}
+th {
+    background: #f9f9f9;
+    color: #000;
+    font-weight: bold;
+}
+tr:last-child td {
+    border-bottom: none;
+}
+.borrowed {
+    color: #dc2626 !important;
+    font-weight: bold;
+}
+
+/* Notification Styles */
+#notification {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f7fafc;
+    color: #222;
+    padding: 14px 32px;
+    border-radius: 8px;
+    display: none;
+    z-index: 4000;
+    font-size: 1.08em;
+    font-weight: 500;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    border: 1.5px solid #cbd5e1;
+    min-width: 180px;
+    max-width: 90vw;
+    text-align: center;
+    transition: opacity 0.2s, top 0.2s;
+}
+#notification.error {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fca5a5;
+}
+#notification.success {
+    background: #d1fae5;
+    color: #065f46;
+    border-color: #6ee7b7;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+.modal-content {
+    background: #fff;
+    padding: 12px 16px;
+    border-radius: 4px;
+    box-shadow: none;
+    max-width: 90vw;
+    min-width: 260px;
+}
+
+/******** Add Form Compact Styles ********/
+.add-form {
+    background: #fff;
+    padding: 8px 10px;
+    margin: 10px 0 6px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 420px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+.add-form label {
+    margin-top: 4px;
+    font-size: 0.97em;
+}
+.add-form input[type="text"],
+.add-form input[type="number"],
+.add-form input[type="password"] {
+    width: 100%;
+    padding: 5px 6px;
+    margin-top: 2px;
+    font-size: 0.97em;
+}
+.add-form button {
+    margin-top: 8px;
+    padding: 6px 14px;
+    font-size: 0.97em;
+}
+
+/******** Table Column Divider Styles ********/
+table th, table td {
+    border-right: 1px solid #ccc;
+}
+table th:last-child, table td:last-child {
+    border-right: none;
+}
+
+table th, table td {
+    border-bottom: 1px solid #ccc;
+}
+table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Strongly rounded and visible action buttons */
+.action-btn {
+    margin-left: 6px;
+    border-radius: 12px;
+    transition: background 0.2s, color 0.2s;
+    padding: 6px 14px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
+}
+
+.delete-btn {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1.5px solid #ef4444;
+}
+.delete-btn:hover {
+    background: #dc2626;
+    color: #fff;
+    border-color: #b91c1c;
+}
+
+.edit-btn {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1.5px solid #38bdf8;
+}
+.edit-btn:hover {
+    background: #e5e5e5;
+    color: #000;
+}
+
+.borrow-btn {
+    background: #ffedd5;
+    color: #ea580c;
+    border: 1.5px solid #fb923c;
+}
+.borrow-btn:hover {
+    background: #bbf7d0;
+    color: #065f46;
+    border-color: #22c55e;
+}
+
+.return-btn {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1.5px solid #f59e0b;
+}
+.return-btn:hover {
+    background: #fde68a;
+    color: #78350f;
+}
+
+.borrowed-btn {
+    background: #dc2626 !important;
+    color: #fff !important;
+    border: 1.5px solid #dc2626;
+    font-weight: 600;
+    border-radius: 12px;
+    min-width: 120px;
+    text-align: center;
+    padding: 6px 14px;
+    display: inline-block;
+    cursor: default;
+    pointer-events: none;
+}
+
+.borrowed-mark {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 8px;
+    border-radius: 50%;
+    background: #dc2626;
+    box-shadow: 0 0 4px #dc2626aa;
+    vertical-align: middle;
+}
+
+/* Right-align action buttons in table cell */
+td.actions, th.actions {
+    text-align: right;
+}
+
+.member-borrowed {
+    color: #16a34a !important;
+    font-weight: bold;
+}
+
+.staff-borrowed {
+    color: #16a34a !important;
+    font-weight: bold;
+}
+
+#members-section form {
+    max-width: 350px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-sizing: border-box;
+    text-align: left;
+}
+#members-section form label {
+    display: block;
+    margin-bottom: 4px;
+}
+#members-section .form-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#members-section .form-row input[type="text"] {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+}
+#members-section .form-row button {
+    min-width: 120px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+#books-section form {
+    max-width: 350px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-sizing: border-box;
+    text-align: left;
+}
+#books-section .form-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#books-section .form-row label {
+    margin-bottom: 0;
+    font-size: 1em;
+    white-space: nowrap;
+}
+#books-section .form-row input[type="text"] {
+    flex: 1 1 180px;
+    min-width: 180px;
+    max-width: 220px;
+    margin-bottom: 0;
+}
+#books-section .form-row button {
+    min-width: 120px;
+    text-align: center;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+.section-count {
+    font-size: 1.1em;
+    color: #555;
+    min-width: 80px;
+    text-align: left;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 700px) {
+    .main-content, section {
+        max-width: 99vw;
+        padding: 6px 2px;
+    }
+    .modal-content {
+        padding: 6px 2px;
+    }
+    th, td {
+        padding: 4px 1px;
+        font-size: 0.97em;
+    }
+    #role-display {
+        margin-right: 2px;
+        font-size: 1em;
+    }
+}
+
+#books-table th:first-child, #books-table td:first-child,
+#members-table th:first-child, #members-table td:first-child {
+    width: 36px;
+    min-width: 32px;
+    max-width: 40px;
+    text-align: center;
+    font-size: 0.98em;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#borrow-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.18);
+    z-index: 3000;
+}
+#borrow-modal .modal-content {
+    background: #fff;
+    padding: 22px 28px 18px 28px;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    min-width: 280px;
+    max-width: 96vw;
+}
+#borrow-modal label {
+    font-size: 1.05em;
+    color: #222;
+}
+#borrow-modal input[type="text"] {
+    margin-top: 8px;
+    padding: 7px 10px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+}
+#borrow-modal button {
+    padding: 7px 18px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    background: #f7f7f7;
+    color: #222;
+    font-weight: 500;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+#borrow-modal button:hover {
+    background: #e5e5e5;
+}
+
+#member-return-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.18);
+    z-index: 3000;
+}
+#member-return-modal .modal-content {
+    background: #fff;
+    padding: 22px 28px 18px 28px;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    min-width: 280px;
+    max-width: 96vw;
+}
+#member-return-list label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 1em;
+    cursor: pointer;
+}
+#member-return-list input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #38bdf8;
+}
+#member-return-modal button {
+    padding: 7px 18px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    background: #f7f7f7;
+    color: #222;
+    font-weight: 500;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+#member-return-modal button:hover {
+    background: #e0f2fe;
+}
+
+.header-btn {
+    padding: 2px 10px;
+    border-radius: 14px;
+    border: 1.5px solid #111;
+    background: #fff;
+    color: #111;
+    font-size: 0.75em;
+    font-weight: 500;
+    margin-right: 0;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, border 0.18s;
+    outline: none;
+    height: 24px;
+    min-width: 60px;
+}
+.header-btn:hover {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+
+#books-section > h2, #members-section > h2 {
+    display: block;
+    position: relative;
+    font-size: 1.35em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+}
+#books-section > h2::after, #members-section > h2::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #38bdf8 60%, #0ea5e9 100%);
+    border-radius: 2px;
+    margin-top: 4px;
+}
+
+.navbar {
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(30,41,59,0.07);
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 500;
+    padding: 0 0 0 0;
+    margin-bottom: 18px;
+}
+.navbar h1 {
+    margin: 0;
+    padding: 18px 0 18px 0;
+}
+
+.navbar-title-text {
+    color: #22c55e;
+    font-weight: 700;
+    font-size: 1.25em;
+    letter-spacing: 0.5px;
+}
+
+#staff-section form {
+    max-width: 350px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-sizing: border-box;
+    text-align: left;
+}
+#staff-section form label {
+    display: block;
+    margin-bottom: 4px;
+}
+#staff-section .form-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#staff-section .form-row input[type="text"] {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+}
+#staff-section .form-row button {
+    min-width: 120px;
+    text-align: center;
+    flex-shrink: 0;
+    margin-left: 0;
+    margin-top: 0;
+}

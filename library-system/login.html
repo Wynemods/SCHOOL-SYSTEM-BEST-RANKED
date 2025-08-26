@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Library System</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      color: #1f2937;
+      line-height: 1.6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      font-size: 14px;
+    }
+    
+    .login-container {
+      background: white;
+      border-radius: 25px;
+      box-shadow: 0 25px 50px rgba(22, 163, 74, 0.15);
+      padding: 50px 40px;
+      max-width: 450px;
+      width: 100%;
+      border: 1px solid rgba(22, 163, 74, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #16a34a, #059669, #047857, #065f46);
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .brand-logo {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #15803d;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .brand-logo:hover {
+      color: #16a34a;
+      transform: scale(1.05);
+    }
+
+    h1 {
+      color: #1f2937;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .demo-info {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      font-size: 0.85rem;
+      color: #15803d;
+      border: 1px solid rgba(22, 163, 74, 0.2);
+      line-height: 1.6;
+    }
+
+    .demo-info h4 {
+      margin: 0 0 12px 0;
+      color: #15803d;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .demo-info p {
+      margin: 0 0 8px 0;
+      font-size: 0.8rem;
+    }
+
+    .demo-info p:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #374151;
+      font-size: 0.9rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px 18px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+      background: white;
+      color: #1f2937;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #16a34a;
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
+      transform: translateY(-1px);
+    }
+
+    input::placeholder {
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+
+    .btn-login {
+      width: 100%;
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: white;
+      padding: 18px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-login::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-login:hover::before {
+      left: 100%;
+    }
+
+    .btn-login:hover {
+      background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(22, 163, 74, 0.4);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .register-link a {
+      color: #16a34a;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .register-link a:hover {
+      color: #15803d;
+      text-decoration: underline;
+    }
+
+    .error {
+      color: #ef4444;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .form-footer {
+      margin-top: 20px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .security-note {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      text-align: center;
+    }
+
+    .security-note p {
+      margin: 0;
+      color: #92400e;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .login-container {
+        padding: 40px 30px;
+        max-width: 400px;
+      }
+      
+      h1 {
+        font-size: 1.6rem;
+      }
+      
+      .brand-logo {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="brand-header">
+      <a href="index-landing.html" class="brand-logo">📚 Library System</a>
+      <h1>Welcome Back</h1>
+    </div>
+    
+    <div class="demo-info">
+      <h4>Demo Accounts Available:</h4>
+      <p><strong>Librarian:</strong> librarian@school.com / password123</p>
+      <p><strong>Staff:</strong> staff@school.com / password123</p>
+      <p><strong>Principal:</strong> principal@school.com / password123</p>
+    </div>
+    
+    <form id="loginForm">
+      <input type="hidden" id="csrf-token" name="csrf-token" value="YOUR_CSRF_TOKEN_HERE" />
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email address" />
+        <div class="error" id="emailError"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="Enter your password" />
+        <div class="error" id="passwordError"></div>
+      </div>
+      
+      <button type="submit" class="btn-login">Sign In</button>
+    </form>
+    
+    <div class="register-link">
+      <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </div>
+    
+    <div class="form-footer">
+      <p>Secure login with encrypted data transmission</p>
+    </div>
+    
+    <div class="security-note">
+      <p>🔒 Your data is protected with enterprise-grade security</p>
+    </div>
+  </div>
+
+  <script>
+    // Create demo users if they don't exist
+    if (!localStorage.getItem('libraryUsers')) {
+      const demoUsers = [
+        {
+          fullName: 'Demo Librarian',
+          email: 'librarian@school.com',
+          password: 'password123',
+          role: 'librarian',
+          id: 1
+        },
+        {
+          fullName: 'Demo Staff',
+          email: 'staff@school.com',
+          password: 'password123',
+          role: 'staff',
+          id: 2
+        },
+        {
+          fullName: 'Demo Principal',
+          email: 'principal@school.com',
+          password: 'password123',
+          role: 'principal',
+          id: 3
+        }
+      ];
+      localStorage.setItem('libraryUsers', JSON.stringify(demoUsers));
+    }
+    
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Clear previous errors
+      document.querySelectorAll('.error').forEach(error => error.textContent = '');
+      
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const csrfToken = document.getElementById('csrf-token').value;
+      
+      let isValid = true;
+      
+      if (!email.includes('@')) {
+        document.getElementById('emailError').textContent = 'Please enter a valid email';
+        isValid = false;
+      }
+      
+      if (!password) {
+        document.getElementById('passwordError').textContent = 'Please enter your password';
+        isValid = false;
+      }
+      
+      if (isValid) {
+        try {
+          const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken // Include CSRF token
+            },
+            body: JSON.stringify({ email, password })
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok) {
+            // Store current user in session
+            sessionStorage.setItem('currentUser', JSON.stringify(data));
+            
+            // Redirect based on role
+            switch(data.role) {
+              case 'librarian':
+                window.location.href = 'main-library-dashboard.html';
+                break;
+              case 'staff':
+                window.location.href = 'staff.html';
+                break;
+              case 'principal':
+                window.location.href = 'index-landing.html';
+                break;
+              default:
+                window.location.href = 'index-landing.html';
+            }
+          } else {
+            // Show specific error messages based on user status
+            if (data.error && data.error.includes('pending approval')) {
+              alert('Your account is pending approval. Please contact the administrator.');
+            } else if (data.error && data.error.includes('locked')) {
+              alert('Your account is locked. Please contact the administrator.');
+            } else {
+              alert(data.error || 'Login failed');
+            }
+          }
+        } catch (error) {
+          alert('Network error. Please try again.');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+</create_file>

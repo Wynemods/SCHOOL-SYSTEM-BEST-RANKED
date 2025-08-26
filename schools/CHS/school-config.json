@@ -1,0 +1,8 @@
+{
+  "schoolName": "Central High School",
+  "schoolCode": "CHS",
+  "databasePath": "./CHS-library.db",
+  "port": 3005,
+  "adminEmail": "admin@chs.edu",
+  "contactPhone": "555-0000"
+}

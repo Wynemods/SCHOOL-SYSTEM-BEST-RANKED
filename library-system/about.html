@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About - Library System | Alex Mods</title>
+  <style>
+    :root {
+      --primary: #16a34a;
+      --primary-dark: #15803d;
+      --secondary: #22c55e;
+      --accent: #f59e0b;
+      --dark: #1f2937;
+      --light: #f0fdf4;
+      --white: #ffffff;
+      --gray: #6b7280;
+      --success: #059669;
+      --warning: #d97706;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: var(--dark);
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    header {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: var(--white);
+      padding: 40px 0;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(37, 99, 235, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    header p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.95;
+    }
+    
+    nav {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+    
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 12px 24px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    nav a:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.6);
+      transform: translateY(-2px);
+    }
+    
+    /* Main Content Styles */
+    main {
+      padding: 60px 0;
+    }
+    
+    section {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 50px;
+      margin-bottom: 50px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    h2 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+    }
+    
+    h2::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      margin: 15px auto 0;
+      border-radius: 2px;
+    }
+    
+    h3 {
+      color: var(--primary-dark);
+      font-size: 1.8rem;
+      margin: 30px 0 20px;
+      font-weight: 600;
+    }
+    
+    /* Developer Section */
+    .developer-section {
+      text-align: center;
+    }
+    
+    .developer-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .developer-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--white);
+      font-weight: bold;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    }
+    
+    .developer-info {
+      text-align: left;
+      max-width: 500px;
+    }
+    
+    .developer-info h2 {
+      text-align: left;
+      margin-bottom: 10px;
+    }
+    
+    .developer-info h2::after {
+      margin: 10px 0 0;
+    }
+    
+    .tagline {
+      font-size: 1.3rem;
+      color: var(--gray);
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+    
+    .contact-list {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 20px;
+      background: var(--light);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(37, 99, 235, 0.1);
+    }
+    
+    .contact-item:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+    }
+    
+    .contact-item img {
+      width: 24px;
+      height: 24px;
+    }
+    
+    /* Projects Section */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .project-card {
+      background: var(--light);
+      padding: 30px;
+      border-radius: 15px;
+      border-left: 5px solid var(--primary);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+    
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+    
+    .project-card h4 {
+      color: var(--primary-dark);
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    
+    .project-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .status-completed {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    
+    .status-in-progress {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+    
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 15px 0;
+    }
+    
+    .tech-tag {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    /* Security Section */
+    .security-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .security-card {
+      background: var(--light);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      border: 1px solid rgba(37, 99, 235, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .security-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .security-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 1.5rem;
+      color: var(--white);
+    }
+    
+    .security-card h4 {
+      color: var(--primary-dark);
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+    
+    /* Wisdom Section */
+    .wisdom-quotes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .quote-card {
+      background: linear-gradient(135deg, var(--light) 0%, #e2e8f0 100%);
+      padding: 30px;
+      border-radius: 15px;
+      border-left: 4px solid var(--accent);
+      position: relative;
+    }
+    
+    .quote-card::before {
+      content: '"';
+      font-size: 4rem;
+      color: var(--accent);
+      opacity: 0.2;
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-family: Georgia, serif;
+    }
+    
+    .quote-text {
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--dark);
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .quote-author {
+      color: var(--gray);
+      font-weight: 600;
+      text-align: right;
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: var(--white);
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+    
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-quote {
+      font-style: italic;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      header p {
+        font-size: 1.1rem;
+      }
+      
+      nav {
+        gap: 15px;
+      }
+      
+      nav a {
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+      
+      section {
+        padding: 30px 20px;
+      }
+      
+      h2 {
+        font-size: 2rem;
+      }
+      
+      .developer-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .developer-info h2 {
+        text-align: center;
+      }
+      
+      .developer-info h2::after {
+        margin: 10px auto 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <h1>Library System Excellence</h1>
+        <p>Revolutionizing library management with cutting-edge technology and enterprise-grade security</p>
+        <nav>
+          <a href="index-landing.html">Home</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="staff.html">Staff</a>
+          <a href="book-history.html">Book History</a>
+          <a href="about.html">About</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Developer Section -->
+    <section class="developer-section">
+      <div class="developer-header">
+        <div class="developer-avatar">AM</div>
+        <div class="developer-info">
+          <h2>Alex Mods</h2>
+          <p class="tagline">Full-Stack Software Engineer & Security Specialist  {Avilable for work }</p>
+          <p>👋 Hi, I'm Alex — </p>
+          <p>💻 Software Engineer | Full-Stack Developer | Tech Creator | Systems Architect</p>
+          <p>Welcome to my about workspace realm! I'm a passionate, world-class software engineer who blends clean code with creative firepower. I specialize in building full-stack web applications, scalable backend architectures, and immersive user experiences that leave a mark.</p>
+          <p>Whether I'm summoning APIs from the void or banishing bugs with a single keystroke, I code with precision, purpose, and a touch of magic.</p>
+          
+          <h3>🚀 What I Do</h3>
+          <ul style="margin: 15px 0; padding-left: 25px;">
+            <li>🧠 Architect high-performance web & mobile apps</li>
+            <li>⚙️ Build RESTful APIs and microservices with Node.js, Laravel, Python, Go, Rust</li>
+            <li>🎨 Design responsive UIs using React, Vue, Angular, Svelte, TailwindCSS</li>
+            <li>☁️ Deploy scalable systems on AWS, Docker, Firebase, Kubernetes, Vercel</li>
+            <li>🔒 Integrate secure auth, payments, and real-time features</li>
+            <li>🧪 Experiment with AI/ML workflows using Python, TensorFlow, mlflow, LangChain</li>
+            <li>🛠️ Mentor devs, contribute to open source, and solve real-world problems</li>
+          </ul>
+          
+          <p>Master's Candidate in Computer Science at Chuka University</p>
+        </div>
+      </div>
+      
+      <div class="contact-list">
+        <a href="mailto:Kingstonmuhoro@gmail.com" class="contact-item">
+          <img src="https://img.icons8.com/ios-filled/50/2563eb/new-post.png" alt="Email">
+          Kingstonmuhoro@gmail.com
+        </a>
+        <a href="https://wa.me/254729288207" class="contact-item" target="_blank" rel="noopener">
+          <img src="https://img.icons8.com/ios-filled/50/2563eb/whatsapp.png" alt="WhatsApp">
+          +254729288207
+        </a>
+        <a href="https://instagram.com/_alexmods" class="contact-item" target="_blank" rel="noopener">
+          <img src="https://img.icons8.com/ios-filled/50/2563eb/instagram-new.png" alt="Instagram">
+          @_alexmods
+        </a>
+      </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section>
+      <h2>Our Mission & Vision</h2>
+      
+      <h3>🌟 Why This System Was Created</h3>
+      <p>This Library Management System was born from a vision to modernize traditional library operations and provide educational institutions with a comprehensive, secure, and intuitive platform. I recognized the need for a system that could:</p>
+      
+      <ul style="margin: 20px 0; padding-left: 30px;">
+        <li>Streamline book tracking and member management</li>
+        <li>Provide real-time analytics and reporting</li>
+        <li>Ensure data security and privacy compliance</li>
+        <li>Offer a seamless user experience across devices</li>
+        <li>Support multiple schools with customizable features</li>
+      </ul>
+      
+      <h3>🎯 Our Vision</h3>
+      <p>To become the leading library management solution for educational institutions across Africa, empowering librarians and administrators with tools that enhance efficiency, security, and the overall learning experience.</p>
+    </section>
+
+    <!-- Projects Section -->
+    <section>
+      <h2>Notable Projects & Accomplishments</h2>
+      
+      <div class="projects-grid">
+        <div class="project-card">
+          <h4>✈️ ASAP Tickets – Enterprise-Grade Flight Booking Platform</h4>
+          <span class="project-status status-completed">Completed</span>
+          <p>This project is a high-performance, React.js-powered ✨ Single Page Application (SPA) engineered for ASAP Tickets to manage end-to-end flight operations — from flight configuration 🛫, to booking management 🧳, to PCI-compliant payment processing 💳.</p>
+          <p>It delivers a scalable, modular, and secure architecture 🛡️ with real-time Firebase Firestore integration, enabling dynamic flight template generation, passenger data handling, secure payments, and deep analytics tracking 📊.</p>
+          <div class="project-tech">
+            <span class="tech-tag">React.js</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">Payment Processing</span>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <h4>🖼️ Face Detection Web Application</h4>
+          <span class="project-status status-completed">Completed</span>
+          <p>This project is a simple face detection web application built with Python, Flask, and OpenCV. Users can upload images through a web interface, and the app detects faces in the images and highlights them with rectangles.</p>
+          <p><strong>Main Function Points:</strong></p>
+          <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>Upload images via a web form</li>
+            <li>Detect faces using OpenCV's Haar Cascade classifier</li>
+            <li>Display the processed image</li>
+          </ul>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Flask</span>
+            <span class="tech-tag">OpenCV</span>
+            <span class="tech-tag">Computer Vision</span>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <h4>📦 SendIT - Complete Parcel Delivery System</h4>
+          <span class="project-status status-completed">Completed</span>
+          <p>A comprehensive parcel delivery management system built with NestJS (Backend) and Angular (Frontend). The system supports multiple user roles including Admin, User, and Courier with full tracking capabilities.</p>
+          <p><strong>🚀 Project Status:</strong> COMPLETE</p>
+          <p><strong>✅ Fully Implemented Features:</strong></p>
+          <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>🔐 Authentication & User Management</li>
+            <li>📦 Parcel Management</li>
+            <li>🚚 Courier System</li>
+            <li>👨‍💼 Admin Dashboard</li>
+            <li>📱 Frontend Features</li>
+          </ul>
+          <div class="project-tech">
+            <span class="tech-tag">NestJS</span>
+            <span class="tech-tag">Angular</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">MongoDB</span>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <h4>📚 Library Management System</h4>
+          <span class="project-status status-completed">Completed</span>
+          <p>A comprehensive library management solution serving multiple schools with advanced features including real-time analytics, automated reports, and multi-role access control.</p>
+          <div class="project-tech">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">SQLite</span>
+            <span class="tech-tag">HTML/CSS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security Features Section -->
+    <section>
+      <h2>Enterprise-Grade Security Features</h2>
+      <p>This library system incorporates robust security measures to protect sensitive data and ensure system integrity:</p>
+      
+      <div class="security-features">
+        <div class="security-card">
+          <div class="security-icon">🔒</div>
+          <h4>CSRF Protection</h4>
+          <p>Cross-Site Request Forgery tokens prevent unauthorized actions by verifying that requests originate from trusted sources.</p>
+          <p><strong>Prevents:</strong> Unauthorized form submissions, account takeovers, and malicious actions.</p>
+        </div>
+        
+        <div class="security-card">
+          <div class="security-icon">🛡️</div>
+          <h4>Input Validation</h4>
+          <p>Comprehensive input sanitization and validation to prevent SQL injection, XSS attacks, and other injection vulnerabilities.</p>
+          <p><strong>Prevents:</strong> Data breaches, system compromise, and malicious code execution.</p>
+        </div>
+        
+        <div class="security-card">
+          <div class="security-icon">🔑</div>
+          <h4>Role-Based Access Control</h4>
+          <p>Granular permission system ensuring users only access features and data appropriate for their role (Student, Librarian, Admin).</p>
+          <p><strong>Prevents:</strong> Unauthorized data access and privilege escalation.</p>
+        </div>
+        
+        <div class="security-card">
+          <div class="security-icon">📊</div>
+          <h4>Audit Logging</h4>
+          <p>Comprehensive logging of all system activities for security monitoring, compliance, and forensic analysis.</p>
+          <p><strong>Provides:</strong> Accountability, traceability, and security incident investigation capabilities.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wisdom & Philosophy Section -->
+    <section>
+      <h2>Code Wisdom & Philosophy</h2>
+      
+      <div class="wisdom-quotes">
+        <div class="quote-card">
+          <p class="quote-text">"The best code is not the most complex, but the most understandable. Write code that your future self will thank you for."</p>
+          <p class="quote-author">- Alex Mods</p>
+        </div>
+        
+        <div class="quote-card">
+          <p class="quote-text">"Security is not a feature; it's a fundamental requirement. Build it in from the start, not as an afterthought."</p>
+          <p class="quote-author">- Alex Mods</p>
+        </div>
+        
+        <div class="quote-card">
+          <p class="quote-text">"Great software solves real problems for real people. Always keep the end-user experience at the forefront of development."</p>
+          <p class="quote-author">- Alex Mods</p>
+        </div>
+        
+        <div class="quote-card">
+          <p class="quote-text">"The most elegant solutions are often the simplest. Complexity should only be introduced when absolutely necessary."</p>
+          <p class="quote-author">- Alex Mods</p>
+        </div>
+      </div>
+      
+      <h3 style="margin-top: 40px;">Development Philosophy</h3>
+      <p>I believe in building software that is not only functional but also maintainable, scalable, and secure. Every line of code is written with attention to:</p>
+      
+      <ul style="margin: 20px 0; padding-left: 30px;">
+        <li><strong>Clean Code Principles:</strong> Readable, maintainable, and well-documented</li>
+        <li><strong>Security First:</strong> Proactive security measures integrated throughout development</li>
+        <li><strong>User-Centric Design:</strong> Intuitive interfaces that enhance user experience</li>
+        <li><strong>Performance Optimization:</strong> Efficient algorithms and optimized database queries</li>
+        <li><strong>Continuous Improvement:</strong> Regular updates and feature enhancements based on feedback</li>
+      </ul>
+    </section>
+
+    <!-- Call to Action -->
+    <section style="text-align: center;">
+      <h2>Ready to Transform Your Library?</h2>
+      <p style="font-size: 1.2rem; margin-bottom: 30px;">Experience the power of modern library management with enterprise-grade security and intuitive design.</p>
+      <a href="index-landing.html" style="display: inline-block; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 15px 40px; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease;">
+        Get Started Today
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p class="footer-quote">"Excellence is not a skill, it's an attitude. Build with passion, code with purpose."</p>
+      <p>&copy; 2025 Library System by Alex Mods. All rights reserved.</p>
+      <p>Built with ❤️ for the education community</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Staff Library System</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="notification" style="display:none;"></div>
+    <div id="alert-container" style="display:none;"></div>
+    <h1 style="display:flex; justify-content:space-between; align-items:center;">
+        Staff Library System
+        <div style="display:flex; align-items:center; gap:10px;">
+            <button id="back-to-library-btn" class="header-btn">Back to Library</button>
+        </div>
+    </h1>
+
+    <section id="staff-section">
+        <h2>Staff</h2>
+        <form id="staff-form">
+            <input type="hidden" id="staff-id" />
+            <label for="staff-name">Name:</label>
+            <div class="form-row">
+                <input type="text" id="staff-name" required />
+                <button type="submit">Add Staff</button>
+            </div>
+            <button type="button" id="staff-cancel-btn" style="display:none;">Cancel</button>
+        </form>
+        <table id="staff-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Borrowed Books</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <section id="books-section">
+        <h2>Books</h2>
+        <form id="book-form">
+            <input type="hidden" id="book-id" />
+            <div class="form-row">
+                <label for="book-title" style="margin-bottom:0;">Title:</label>
+                <input type="text" id="book-title" required />
+                <label for="book-author" style="margin-bottom:0; margin-left:8px;">Author:</label>
+                <input type="text" id="book-author" required />
+                <button type="submit">Add Book</button>
+            </div>
+            <button type="button" id="book-cancel-btn" style="display:none;">Cancel</button>
+        </form>
+        <table id="books-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Borrowed By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <div id="staff-borrow-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <form id="staff-borrow-form">
+                <label for="staff-borrow-name" style="font-weight:500;">Enter staff name to borrow this book:</label>
+                <input type="text" id="staff-borrow-name" required style="margin-top:8px; width:100%;" autocomplete="off" />
+                <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+                    <button type="button" id="staff-borrow-cancel-btn">Cancel</button>
+                    <button type="submit" id="staff-borrow-confirm-btn">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="staff-return-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <form id="staff-return-form">
+                <div id="staff-return-list" style="margin-bottom: 16px;"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <button type="button" id="staff-return-select-all">Select All</button>
+                    <div>
+                        <button type="button" id="staff-return-cancel">Cancel</button>
+                        <button type="submit" id="staff-return-confirm">Return</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="staff-system.js" type="module"></script>
+    <script>
+        document.getElementById('back-to-library-btn').onclick = function() {
+            window.location.href = 'index.html';
+        };
+    </script>
+</body>
+</html> 
