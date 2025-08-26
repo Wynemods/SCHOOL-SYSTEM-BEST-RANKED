@@ -109,7 +109,6 @@ This project is **owned and maintained** by the developers. Schools and organiza
 
 👉 And remember:
 **A library without a management system is like a phone without battery 🔋… it exists, but is totally useless.** 😂
-
+So dont be left behind, let your Instution have the best version of the upcoming world
 ---
 
-Would you like me to also make a **shorter, professional version** (like for GitHub/clients) in addition to this fun one?
